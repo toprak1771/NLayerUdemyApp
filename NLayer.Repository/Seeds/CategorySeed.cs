@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NLayer.Core;
+using NLayer.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +15,9 @@ namespace NLayer.Repository.Seeds
         {
             builder.HasData
             (
-                new Category() { Id = 1, Name = "Pensils", CreatedDate=DateTime.Now},
-                new Category() { Id = 2, Name = "NoteBooks", CreatedDate = DateTime.Now },
-                new Category() { Id = 3, Name = "Books", CreatedDate = DateTime.Now }
+                new Category() { Id = 1, Name = "Pensils", CreatedDate=DateTime.Now,UpdatedDate=DateTime.Now},
+                new Category() { Id = 2, Name = "NoteBooks", CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now },
+                new Category() { Id = 3, Name = "Books", CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now }
             );
         }
     }
