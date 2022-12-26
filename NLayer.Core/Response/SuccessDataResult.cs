@@ -8,13 +8,8 @@ namespace NLayer.Core.Response
 {
     public class SuccessDataResult<TData> : DataResult<TData>
     {
-        public SuccessDataResult() : base(default,true)
-        {
-
-        }
-        public SuccessDataResult(TData data) : base(data, true)
-        {
-        }
+            
+        
 
         public SuccessDataResult(string message) : base(true, message)
         {
@@ -23,5 +18,6 @@ namespace NLayer.Core.Response
         public SuccessDataResult(TData data, string? message) : base(data, true, message)
         {
         }
+
     }
 }

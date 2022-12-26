@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NLayer.Core.Repositories;
+using NLayer.Core.Services;
+using NLayer.Service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,8 @@ namespace NLayer.Service
     {
         public static void AddServiceServices(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());    
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
         }
     }
 }
