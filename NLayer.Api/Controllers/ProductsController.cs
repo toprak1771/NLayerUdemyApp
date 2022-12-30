@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NLayer.Core.DTOs;
+using NLayer.Core.DTOs.Product;
 using NLayer.Core.Message;
 using NLayer.Core.Models;
 using NLayer.Core.Response;
@@ -33,20 +33,48 @@ namespace NLayer.Api.Controllers
         public async Task<IDataResult<ProductDto>> GetById(int id)
         {
             var product = await _services.GetByIdAsync(id);
+            if (product == null) return new ErrorDataResult<ProductDto>(Message.ErrorReturnProduct);
             var productDto = _mapper.Map<ProductDto>(product);
-            return new SuccessDataResult<ProductDto>(productDto, Message.ReturnProduct);           
+            return new SuccessDataResult<ProductDto>(productDto, Message.ReturnProduct);
         }
 
         [HttpPost]
-        public async Task<IDataResult<ProductDto>> Create(ProductDto newProduct)
+        public async Task<IDataResult<CreateProductDto>> Create(CreateProductDto newProduct)
         {
-            var product = await _services.GetByIdAsync(newProduct.Id);
-            if(product is not null) { return new ErrorDataResult<ProductDto>("Hatalı"); };
+            var productControl = await _services.AnyAsync(x=>x.Name==newProduct.Name);
+            if (productControl) { return new ErrorDataResult<CreateProductDto>(Message.ErrorCreateProduct); };
 
-            product = await _services.AddAsync(_mapper.Map<Product>(newProduct));
-            var addedProduct = _mapper.Map<ProductDto>(product);
-            return new SuccessDataResult<ProductDto>(addedProduct,Message.ReturnProduct);
+            var product = await _services.AddAsync(_mapper.Map<Product>(newProduct));
+            var addedProduct = _mapper.Map<CreateProductDto>(product);
+            return new SuccessDataResult<CreateProductDto>(addedProduct, Message.SuccessCreateProduct);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<Core.Response.IResult> Delete(int id)
+        {
+            var product = await _services.GetByIdAsync(id);
+            if (product is null)
+            {
+                return new ErrorResult(Message.ErrorDeleteProduct);
+            }
+            
+                await _services.RemoveAsync(product);
+                return new SuccessResult(Message.SuccessDeleteProduct);            
+        }
+
+        [HttpPut("{id}")]
+        public async Task<Core.Response.IResult> Update(int id,UpdatedProductDto updatedProduct)
+        {
+            var product = await _services.GetByIdAsync(id);
+            if(product is null)
+            {
+                return new ErrorResult(Message.ErrorUpdateProduct);
+            }
+                product = _mapper.Map<Product>(updatedProduct);
+                await _services.UpdateAsync(product);
+                return new SuccessResult(Message.SuccessUpdateProduct);          
+        }
+
         //deneme
     }
 }
