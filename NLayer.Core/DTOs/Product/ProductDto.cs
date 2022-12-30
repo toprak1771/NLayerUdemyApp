@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayer.Core.DTOs
+namespace NLayer.Core.DTOs.Product
 {
     public class ProductDto : BaseDto
     {
@@ -12,5 +12,7 @@ namespace NLayer.Core.DTOs
         public int Stock { get; set; }
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
+
+        
     }
 }
