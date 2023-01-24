@@ -19,6 +19,7 @@ namespace NLayer.Repository
         {
             services.AddScoped<IUnitOfWork, UnitofWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
