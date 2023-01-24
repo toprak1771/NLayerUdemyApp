@@ -15,12 +15,22 @@ namespace NLayer.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IService<Product> _services;
+        private readonly IProductService _productSerice;
 
-        public ProductsController(IMapper mapper, IService<Product> services)
+        public ProductsController(IMapper mapper, IService<Product> services,IProductService productService)
         {
             _mapper = mapper;
             _services = services;
+            _productSerice = productService;
         }
+
+        [HttpGet("[action]")]
+        public async Task<IDataResult<List<ProductCategoryDto>>> GetProductsWithCategory()
+        {
+            var products = await _productSerice.GetProductsWithCategory();
+            return (products);
+        }
+
         [HttpGet]
         public async Task<IDataResult<List<ProductDto>>> All()
         {
@@ -76,5 +86,5 @@ namespace NLayer.Api.Controllers
         }
 
         //deneme
-    }
+    } 
 }
